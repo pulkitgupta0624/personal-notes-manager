@@ -12,7 +12,7 @@ const { validateBookmark } = require('../middlewares/validate');
 const router = express.Router();
 
 // Apply optional auth - works with or without token
-router.use(optionalAuth);
+router.use(protect);
 
 router.route('/')
   .get(getBookmarks)

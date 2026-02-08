@@ -57,7 +57,6 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Validate input
     if (!email || !password) {
       return res.status(400).json({
         status: 'error',
@@ -65,9 +64,8 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    // Find user and include password
     const user = await User.findOne({ email }).select('+password');
-    
+
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({
         status: 'error',
@@ -75,9 +73,9 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    // Generate token
     const token = generateToken(user._id);
 
+    // IMPORTANT: This format must match what frontend expects
     res.status(200).json({
       status: 'success',
       data: {

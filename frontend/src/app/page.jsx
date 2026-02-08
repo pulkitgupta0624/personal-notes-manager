@@ -1,7 +1,18 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaStickyNote, FaBookmark, FaSearch, FaTags, FaStar, FaMobile } from 'react-icons/fa'
 
 export default function Home() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setIsLoggedIn(!!token)
+  }, [])
+
   return (
     <div className="min-h-[calc(100vh-200px)]">
       {/* Hero Section */}
@@ -14,18 +25,37 @@ export default function Home() {
             Your personal workspace to organize notes, save bookmarks, and keep everything you need in one place.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link 
-              href="/notes" 
-              className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
-            >
-              Get Started with Notes
-            </Link>
-            <Link 
-              href="/bookmarks" 
-              className="bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-800 transition-colors border-2 border-white"
-            >
-              Explore Bookmarks
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/notes"
+                  className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
+                >
+                  Go to Notes
+                </Link>
+                <Link
+                  href="/bookmarks"
+                  className="bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-800 transition-colors border-2 border-white"
+                >
+                  Go to Bookmarks
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/register"
+                  className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
+                >
+                  Get Started Free
+                </Link>
+                <Link
+                  href="/login"
+                  className="bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-800 transition-colors border-2 border-white"
+                >
+                  Login
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
